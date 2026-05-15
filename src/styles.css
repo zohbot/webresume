@@ -114,13 +114,6 @@ svg {
   font-weight: 850;
 }
 
-.brand img,
-.profile-mark {
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
-  object-fit: cover;
-}
-
 .actions {
   display: inline-flex;
   gap: 0.5rem;
@@ -229,6 +222,63 @@ h1 {
   border-radius: 8px;
   background: var(--surface-strong);
   padding: 18px;
+}
+
+.character-stage {
+  position: relative;
+  display: grid;
+  width: 132px;
+  height: 142px;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--accent) 34%, var(--line));
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--surface) 58%, transparent), transparent),
+    radial-gradient(circle at 50% 82%, rgba(57, 210, 165, 0.26), transparent 34%),
+    var(--surface);
+}
+
+.character-stage::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  width: 82px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.18);
+  filter: blur(3px);
+  transform: translateX(-50%);
+}
+
+.character-sprite {
+  display: inline-block;
+  flex: 0 0 auto;
+  width: 72px;
+  height: 110px;
+  background-image: url("../assets/kenney-platformer-soldier.png");
+  background-position: 0 0;
+  background-repeat: no-repeat;
+  background-size: 720px 330px;
+  image-rendering: auto;
+  animation: soldier-bob 1.35s ease-in-out infinite;
+}
+
+.character-sprite--nav {
+  width: 36px;
+  height: 55px;
+  background-size: 360px 165px;
+  background-position: 0 0;
+}
+
+.character-sprite--profile {
+  position: absolute;
+  left: 50%;
+  bottom: 16px;
+  z-index: 1;
+  transform: translateX(-50%) scale(1.2);
+  transform-origin: bottom center;
 }
 
 .contact-panel > p {
@@ -458,7 +508,7 @@ time {
     margin-bottom: 12px;
   }
 
-  .brand span {
+  .brand > span:last-child {
     display: none;
   }
 
@@ -479,6 +529,17 @@ time {
 
   time {
     white-space: normal;
+  }
+}
+
+@keyframes soldier-bob {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+
+  50% {
+    translate: 0 -4px;
   }
 }
 
@@ -558,5 +619,9 @@ time {
 
   .project-card {
     break-inside: avoid;
+  }
+
+  .character-sprite {
+    animation: none;
   }
 }

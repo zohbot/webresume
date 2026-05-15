@@ -29,3 +29,9 @@ For GitHub Pages, push this folder to your own repository, enable Pages for the 
 ## PDF
 
 Use the print button in the upper-right corner, then choose "Save as PDF". The stylesheet includes print-specific rules for a resume-friendly PDF.
+
+## Asset Credit
+
+The animated character uses Kenney's platformer character sprite sheet, available under Creative Commons CC0 / public domain dedication via Wikimedia Commons:
+
+https://commons.wikimedia.org/wiki/File:Kenney.nl_platformer_characters_-_soldier_vector.svg

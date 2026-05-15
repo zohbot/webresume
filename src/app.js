@@ -123,7 +123,7 @@ function render() {
   app.innerHTML = `
     <header class="topbar">
       <a class="brand" href="https://zohbot.net" aria-label="${escapeHtml(resume.name)} home">
-        <img src="assets/zohbot-mark.png" alt="" width="40" height="40">
+        <span class="character-sprite character-sprite--nav" aria-hidden="true"></span>
         <span>${escapeHtml(resume.name)}</span>
       </a>
       <div class="actions">
@@ -145,7 +145,9 @@ function render() {
           <p class="summary">${escapeHtml(resume.summary)}</p>
         </div>
         <aside class="contact-panel" aria-label="Contact details">
-          <img class="profile-mark" src="assets/zohbot-mark.png" alt="" width="96" height="96">
+          <div class="character-stage" aria-hidden="true">
+            <span class="character-sprite character-sprite--profile"></span>
+          </div>
           <p>${escapeHtml(resume.location)}</p>
           <div class="contact-list">${renderContacts()}</div>
         </aside>
