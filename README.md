@@ -1,20 +1,21 @@
 # Zohbot Web Resume
 
-A clean-room, static web resume for `zohbot.net`. It is intentionally small: no framework, no borrowed template dependency, and no build step required.
+A clean-room web resume for `zohbot.net`, rebuilt as a Vite + React app with Tailwind CSS, Radix primitives, and local shadcn/ui-style components.
 
 ## Edit Your Resume
 
-Update the content in `src/resume-data.js`. The page renders from that file, so your name, links, roles, projects, education, and skills are all in one place.
+Update the content in `src/data/resume.js`. The page renders from that file, so your name, links, roles, projects, education, and skills are all in one place.
 
 ## Preview Locally
 
-Open `index.html` directly in a browser, or run a tiny local server from this folder:
+Install dependencies and run the Vite dev server:
 
 ```powershell
-python -m http.server 5173
+npm install
+npm run dev -- --port 5174
 ```
 
-Then visit `http://127.0.0.1:5173`.
+Then visit `http://127.0.0.1:5174`.
 
 ## Publish To zohbot.net
 
@@ -32,6 +33,10 @@ Use the print button in the upper-right corner, then choose "Save as PDF". The s
 
 ## Asset Credit
 
-The animated character uses Kenney's platformer character sprite sheet, available under Creative Commons CC0 / public domain dedication via Wikimedia Commons:
+The hero background and holographic core graphic were generated with the built-in image generation tool for this project. Final project assets:
 
-https://commons.wikimedia.org/wiki/File:Kenney.nl_platformer_characters_-_soldier_vector.svg
+- `assets/ai-zohbot-hero.png`
+- `assets/ai-zohbot-core.png`
+- `assets/zohbot-avatar.png`
+
+The current avatar is the project-owned image provided by the site owner in `assets/zohbot-avatar.png`.

@@ -1,4 +1,4 @@
-window.resume = {
+export const resume = {
   name: "Zohbot",
   initials: "ZB",
   role: "Software Engineer / Automation Builder",
