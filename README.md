@@ -6,6 +6,25 @@
 
 A clean-room web resume for `zohbot.net`, rebuilt as a Vite + React app with Tailwind CSS, Radix primitives, and local shadcn/ui-style components.
 
+For website, resume, portfolio, or automation project inquiries, visit [SYHTEK](https://syhtek.com).
+
+## Buyer / Customer Notes
+
+This repo demonstrates a modern personal portfolio/resume interface with structured content, project cards, contact routes, print-friendly resume behavior, and a polished responsive visual system. It can be adapted for consultants, technical founders, freelancers, or small agencies that need a credible personal site.
+
+Design direction, frontend implementation, visual system, and GitHub presentation by [SYHTEK](https://syhtek.com).
+
+## Tech Behind The Website
+
+- React and Vite
+- Tailwind CSS
+- Radix-style local UI components
+- Lucide icon system
+- Structured resume data in `src/data/resume.js`
+- Generated project-owned visual assets
+- Print stylesheet for PDF output
+- GitHub Pages publishing path through `CNAME`
+
 ## Edit Your Resume
 
 Update the content in `src/data/resume.js`. The page renders from that file, so your name, links, roles, projects, education, and skills are all in one place.

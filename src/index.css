@@ -113,6 +113,39 @@ input {
     linear-gradient(180deg, rgb(255 255 255 / 0.05), rgb(255 255 255 / 0.02));
 }
 
+.site-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 2rem;
+  border-top: 1px solid hsl(189 72% 42% / 0.18);
+  color: var(--color-muted-foreground);
+  font-size: 0.875rem;
+}
+
+.site-footer strong {
+  color: var(--color-foreground);
+}
+
+.site-footer p {
+  margin: 0.25rem 0 0;
+}
+
+.site-footer a {
+  color: var(--color-primary);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+@media (max-width: 640px) {
+  .site-footer {
+    display: grid;
+  }
+}
+
 @media print {
   body {
     background: white;
@@ -121,6 +154,7 @@ input {
 
   header,
   .skip-link,
+  .site-footer,
   .hero-media,
   .core-graphic {
     display: none;

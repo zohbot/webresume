@@ -340,6 +340,13 @@ function App() {
           <ResumeTabs />
         </div>
       </main>
+      <footer className="site-footer">
+        <div>
+          <strong>Zohbot Web Resume</strong>
+          <p>Design, frontend implementation, and project presentation by <a href="https://syhtek.com">SYHTEK</a>.</p>
+        </div>
+        <a href="https://syhtek.com">Inquiries</a>
+      </footer>
     </>
   );
 }
