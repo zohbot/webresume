@@ -7,10 +7,16 @@ import { defineConfig } from "vite";
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
+  root: dirname,
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
       "@": path.resolve(dirname, "src")
+    }
+  },
+  build: {
+    rollupOptions: {
+      input: path.resolve(dirname, "index.html")
     }
   },
   server: {
