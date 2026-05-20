@@ -1,7 +1,7 @@
-# Zohbot Web Resume
+# zohbot web resume
 
 <p align="center">
-  <img src="docs/screenshots/home-desktop.png" alt="Zohbot web resume desktop preview" width="100%">
+  <img src="docs/screenshots/home-desktop.png" alt="zohbot web resume desktop preview" width="100%">
 </p>
 
 A clean-room web resume for `zohbot.net`, rebuilt as a Vite + React app with Tailwind CSS, Radix primitives, and local shadcn/ui-style components.

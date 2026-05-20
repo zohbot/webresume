@@ -1,6 +1,6 @@
 export const resume = {
-  name: "Zohbot",
-  initials: "ZB",
+  name: "zohbot",
+  initials: "zb",
   role: "Software Engineer / Automation Builder",
   location: "United States",
   summary:

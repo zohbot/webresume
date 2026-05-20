@@ -161,7 +161,7 @@ function SectionHeading({ icon: Icon, eyebrow, title, action }) {
   );
 }
 
-function ZohbotAvatar({ compact = false }) {
+function BrandAvatar({ compact = false }) {
   return (
     <div
       className={
@@ -184,7 +184,7 @@ function Header() {
             href="https://zohbot.net"
             {...getSafeLinkProps("https://zohbot.net")}
           >
-            <ZohbotAvatar compact />
+            <BrandAvatar compact />
             <span className="hidden sm:inline">{resume.name}</span>
           </a>
           <nav className="hidden items-center gap-1 rounded-md border border-border bg-card p-1 md:flex">
@@ -246,7 +246,7 @@ function Hero() {
         <Card className="min-w-0 overflow-hidden self-end border-border/80 bg-card/82 backdrop-blur-xl">
           <CardHeader className="pb-4">
             <div className="flex items-start justify-between gap-4">
-              <ZohbotAvatar />
+              <BrandAvatar />
               <Badge variant="warning" className="rounded-md">
                 Active
               </Badge>
@@ -321,7 +321,7 @@ function TerminalPanel() {
   const [history, setHistory] = useState([
     {
       command: "boot",
-      lines: ["Zohbot interactive shell online.", "Run help to explore the resume."]
+      lines: ["zohbot interactive shell online.", "Run help to explore the resume."]
     }
   ]);
   const [command, setCommand] = useState("");
@@ -543,7 +543,7 @@ function SignalLab() {
   return (
     <Card className="signal-lab overflow-hidden bg-card/82">
       <CardHeader className="relative z-10">
-        <SectionHeading icon={Gauge} eyebrow="Signal lab" title="Mix the Zohbot build mode" />
+        <SectionHeading icon={Gauge} eyebrow="Signal lab" title="Mix the zohbot build mode" />
       </CardHeader>
       <CardContent className="relative z-10 grid gap-4">
         <div className="grid gap-2 sm:grid-cols-3">
@@ -744,7 +744,7 @@ function App() {
       </main>
       <footer className="site-footer">
         <div>
-          <strong>Zohbot Web Resume</strong>
+          <strong>zohbot web resume</strong>
           <p>
             Design, frontend implementation, and project presentation by{" "}
             <a href="https://syhtek.com" {...getSafeLinkProps("https://syhtek.com")}>
