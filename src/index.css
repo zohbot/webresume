@@ -2,23 +2,23 @@
 
 @theme {
   --font-sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --color-background: hsl(220 30% 5%);
-  --color-foreground: hsl(195 38% 96%);
-  --color-card: hsl(216 28% 8%);
-  --color-card-foreground: hsl(195 38% 96%);
-  --color-popover: hsl(216 28% 8%);
-  --color-popover-foreground: hsl(195 38% 96%);
-  --color-primary: hsl(176 88% 58%);
-  --color-primary-foreground: hsl(210 38% 7%);
-  --color-secondary: hsl(214 24% 14%);
-  --color-secondary-foreground: hsl(195 38% 96%);
-  --color-muted: hsl(214 24% 13%);
-  --color-muted-foreground: hsl(204 22% 70%);
-  --color-accent: hsl(214 24% 15%);
-  --color-accent-foreground: hsl(195 38% 96%);
-  --color-border: hsl(194 52% 24%);
-  --color-input: hsl(194 52% 24%);
-  --color-ring: hsl(176 88% 58%);
+  --color-background: hsl(240 10% 4%);
+  --color-foreground: hsl(48 38% 96%);
+  --color-card: hsl(240 9% 7%);
+  --color-card-foreground: hsl(48 38% 96%);
+  --color-popover: hsl(240 9% 7%);
+  --color-popover-foreground: hsl(48 38% 96%);
+  --color-primary: hsl(14 95% 65%);
+  --color-primary-foreground: hsl(240 10% 4%);
+  --color-secondary: hsl(75 34% 15%);
+  --color-secondary-foreground: hsl(48 38% 96%);
+  --color-muted: hsl(250 9% 12%);
+  --color-muted-foreground: hsl(43 19% 72%);
+  --color-accent: hsl(75 88% 58%);
+  --color-accent-foreground: hsl(240 10% 4%);
+  --color-border: hsl(14 48% 30%);
+  --color-input: hsl(14 48% 30%);
+  --color-ring: hsl(75 88% 58%);
 }
 
 * {
@@ -27,17 +27,19 @@
 
 html {
   scroll-behavior: smooth;
-  background: hsl(220 30% 5%);
+  background: hsl(240 10% 4%);
 }
 
 body {
   min-width: 320px;
   margin: 0;
+  overflow-x: hidden;
   background:
-    radial-gradient(circle at 10% 8%, rgb(72 240 219 / 0.18), transparent 28rem),
-    radial-gradient(circle at 86% 0%, rgb(255 211 109 / 0.12), transparent 26rem),
-    linear-gradient(180deg, hsl(216 35% 7%) 0%, hsl(220 30% 5%) 46%, hsl(216 35% 6%) 100%);
-  color: hsl(195 38% 96%);
+    radial-gradient(circle at 10% 8%, rgb(255 115 86 / 0.18), transparent 28rem),
+    radial-gradient(circle at 86% 0%, rgb(210 255 82 / 0.13), transparent 26rem),
+    radial-gradient(circle at 54% 100%, rgb(139 92 246 / 0.13), transparent 30rem),
+    linear-gradient(180deg, hsl(250 12% 6%) 0%, hsl(240 10% 4%) 46%, hsl(28 13% 5%) 100%);
+  color: hsl(48 38% 96%);
   font-family: var(--font-sans);
   letter-spacing: 0;
 }
@@ -53,8 +55,8 @@ input {
   top: 1rem;
   z-index: 50;
   border-radius: 0.375rem;
-  background: hsl(176 88% 58%);
-  color: hsl(210 38% 7%);
+  background: hsl(75 88% 58%);
+  color: hsl(240 10% 4%);
   padding: 0.65rem 0.9rem;
   font-weight: 800;
   opacity: 0;
@@ -73,8 +75,8 @@ input {
 
 .hero-media {
   background:
-    linear-gradient(90deg, rgb(3 9 15 / 0.94) 0%, rgb(3 9 15 / 0.66) 42%, rgb(3 9 15 / 0.12) 100%),
-    linear-gradient(0deg, rgb(3 9 15 / 0.88) 0%, transparent 56%),
+    linear-gradient(90deg, rgb(10 9 13 / 0.95) 0%, rgb(10 9 13 / 0.68) 42%, rgb(10 9 13 / 0.1) 100%),
+    linear-gradient(0deg, rgb(10 9 13 / 0.9) 0%, transparent 56%),
     url("/assets/ai-zohbot-hero.png") center / cover no-repeat;
 }
 
@@ -82,9 +84,9 @@ input {
   content: "";
   position: absolute;
   inset: 1.125rem;
-  border: 1px solid rgb(72 240 219 / 0.14);
+  border: 1px solid rgb(210 255 82 / 0.16);
   border-radius: 0.5rem;
-  box-shadow: inset 0 0 80px rgb(72 240 219 / 0.05);
+  box-shadow: inset 0 0 80px rgb(255 115 86 / 0.07);
 }
 
 .zohbot-avatar {
@@ -95,22 +97,85 @@ input {
     url("/assets/zohbot-avatar.png") center / cover no-repeat;
   box-shadow:
     inset 0 0 0 1px rgb(255 255 255 / 0.06),
-    0 16px 42px rgb(255 48 88 / 0.16),
-    0 0 34px rgb(72 240 219 / 0.1);
+    0 16px 42px rgb(255 115 86 / 0.22),
+    0 0 34px rgb(210 255 82 / 0.12);
 }
 
 .zohbot-avatar-compact {
   width: 2.75rem;
   height: 2.75rem;
-  border: 1px solid rgb(72 240 219 / 0.24);
+  border: 1px solid rgb(255 115 86 / 0.34);
   border-radius: 0.5rem;
 }
 
 .core-graphic {
   background:
-    radial-gradient(circle at 50% 50%, rgb(72 240 219 / 0.18), transparent 58%),
+    radial-gradient(circle at 50% 50%, rgb(210 255 82 / 0.14), transparent 54%),
+    radial-gradient(circle at 50% 62%, rgb(255 115 86 / 0.14), transparent 62%),
     url("/assets/ai-zohbot-core.png") center / min(84%, 18rem) auto no-repeat,
     linear-gradient(180deg, rgb(255 255 255 / 0.05), rgb(255 255 255 / 0.02));
+}
+
+.wrap-inline {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.terminal-surface,
+.signal-lab {
+  position: relative;
+  isolation: isolate;
+}
+
+.terminal-surface::before,
+.signal-lab::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(180deg, rgb(255 115 86 / 0.09), transparent 38%),
+    repeating-linear-gradient(0deg, rgb(255 255 255 / 0.035) 0 1px, transparent 1px 7px);
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.terminal-surface::after {
+  content: "";
+  position: absolute;
+  inset: auto 1rem 1rem 1rem;
+  height: 6rem;
+  z-index: -1;
+  border-radius: 999px;
+  background: rgb(210 255 82 / 0.12);
+  filter: blur(42px);
+  pointer-events: none;
+}
+
+.terminal-caret {
+  display: inline-block;
+  width: 0.55rem;
+  height: 1rem;
+  transform: translateY(0.15rem);
+  background: hsl(75 88% 58%);
+  animation: terminal-blink 1s steps(2, start) infinite;
+}
+
+.signal-lab::after {
+  content: "";
+  position: absolute;
+  inset: 1rem;
+  z-index: -1;
+  border: 1px solid rgb(255 115 86 / 0.14);
+  border-radius: 0.5rem;
+  box-shadow: inset 0 0 44px rgb(255 115 86 / 0.07);
+  pointer-events: none;
+}
+
+@keyframes terminal-blink {
+  50% {
+    opacity: 0;
+  }
 }
 
 .site-footer {
@@ -121,7 +186,7 @@ input {
   max-width: 80rem;
   margin: 0 auto;
   padding: 1.5rem 1rem 2rem;
-  border-top: 1px solid hsl(189 72% 42% / 0.18);
+  border-top: 1px solid hsl(14 95% 65% / 0.2);
   color: var(--color-muted-foreground);
   font-size: 0.875rem;
 }
@@ -156,7 +221,8 @@ input {
   .skip-link,
   .site-footer,
   .hero-media,
-  .core-graphic {
+  .core-graphic,
+  #playground {
     display: none;
   }
 

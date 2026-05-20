@@ -1,16 +1,27 @@
+import { useMemo, useState } from "react";
 import {
   ArrowUpRight,
   Bot,
   BriefcaseBusiness,
   CheckCircle2,
+  Cpu,
+  Gamepad2,
   GitBranch,
+  Gauge,
   Mail,
   Moon,
   PanelsTopLeft,
   Printer,
+  Rocket,
+  RotateCcw,
+  Send,
+  ShieldCheck,
   Radar,
   Sparkles,
   SquareStack,
+  Terminal,
+  Trophy,
+  WandSparkles,
   Workflow
 } from "lucide-react";
 
@@ -34,11 +45,91 @@ const operations = [
   { icon: Radar, label: "Delivery", value: "Debug, refine, deploy, document" }
 ];
 
+const quickCommands = ["help", "whoami", "projects", "skills", "contact", "motd"];
+const maxTerminalHistory = 8;
+
+const missionCards = [
+  {
+    id: "prototype",
+    icon: Rocket,
+    title: "Launch prototype",
+    detail: "Turn a raw idea into a clickable browser experience.",
+    reward: "+30 signal"
+  },
+  {
+    id: "automate",
+    icon: Workflow,
+    title: "Automate the loop",
+    detail: "Find repeated work, wire the workflow, and leave notes for humans.",
+    reward: "+24 focus"
+  },
+  {
+    id: "polish",
+    icon: WandSparkles,
+    title: "Polish the interface",
+    detail: "Tighten spacing, states, copy, and responsive behavior.",
+    reward: "+18 style"
+  }
+];
+
+const buildModes = [
+  {
+    id: "interface",
+    icon: PanelsTopLeft,
+    label: "Interface",
+    score: 34,
+    output: "Responsive layout, readable hierarchy, crisp interaction states."
+  },
+  {
+    id: "automation",
+    icon: Cpu,
+    label: "Automation",
+    score: 29,
+    output: "Repeatable workflows, API glue, and fewer manual handoffs."
+  },
+  {
+    id: "delivery",
+    icon: ShieldCheck,
+    label: "Delivery",
+    score: 25,
+    output: "Debug pass, deployment path, docs, and a clean handoff."
+  }
+];
+
 const contactIcons = {
   Website: SquareStack,
   GitHub: GitBranch,
   Email: Mail
 };
+
+function getCommandLines(command) {
+  switch (command) {
+    case "help":
+      return [
+        "Try: whoami, projects, skills, contact, motd, clear.",
+        "Click a command chip or type into the input below."
+      ];
+    case "whoami":
+      return [resume.name, resume.role, resume.summary];
+    case "projects":
+      return resume.projects.map((project) => `${project.name}: ${project.stack}`);
+    case "skills":
+      return resume.skills.map((skillSet) => `${skillSet.group}: ${skillSet.items.join(", ")}`);
+    case "contact":
+      return resume.contacts.map((contact) => `${contact.label}: ${contact.value}`);
+    case "motd":
+      return [
+        "The quieter you become, the more you can hear.",
+        "Build the system, then make it feel effortless."
+      ];
+    default:
+      return [`Command not found: ${command}`, "Run help for the command list."];
+  }
+}
+
+function getSafeLinkProps(href) {
+  return href.startsWith("http") ? { rel: "noreferrer" } : {};
+}
 
 function IconButton({ label, children, onClick }) {
   return (
@@ -88,12 +179,16 @@ function Header() {
     <TooltipProvider delayDuration={250}>
       <header className="sticky top-0 z-30 border-b border-border/70 bg-background/82 backdrop-blur-xl">
         <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <a className="flex items-center gap-3 font-semibold text-foreground" href="https://zohbot.net">
+          <a
+            className="flex items-center gap-3 font-semibold text-foreground"
+            href="https://zohbot.net"
+            {...getSafeLinkProps("https://zohbot.net")}
+          >
             <ZohbotAvatar compact />
             <span className="hidden sm:inline">{resume.name}</span>
           </a>
           <nav className="hidden items-center gap-1 rounded-md border border-border bg-card p-1 md:flex">
-            {["Overview", "Systems", "Projects", "Skills"].map((item) => (
+            {["Overview", "Systems", "Playground", "Projects", "Skills"].map((item) => (
               <a
                 key={item}
                 href={`#${item.toLowerCase()}`}
@@ -121,9 +216,12 @@ function Hero() {
   return (
     <section id="overview" className="relative overflow-hidden border-b border-border bg-card">
       <div className="hero-media absolute inset-0" aria-hidden="true" />
-      <div className="relative mx-auto grid min-h-[680px] w-full max-w-7xl content-end gap-6 px-4 py-8 sm:px-6 lg:grid-cols-[minmax(0,1fr)_400px] lg:px-8 lg:py-10">
-        <div className="max-w-3xl pb-2">
-          <Badge variant="success" className="mb-5 max-w-full rounded-md px-3 py-1 text-left whitespace-normal">
+      <div className="relative mx-auto grid min-h-[680px] w-full min-w-0 max-w-7xl content-end gap-6 px-4 py-8 sm:px-6 lg:grid-cols-[minmax(0,1fr)_400px] lg:px-8 lg:py-10">
+        <div className="min-w-0 max-w-3xl pb-2">
+          <Badge
+            variant="success"
+            className="wrap-inline mb-5 w-full max-w-full justify-start rounded-md px-3 py-1 text-left sm:w-fit"
+          >
             <Sparkles className="size-3" />
             {resume.availability}
           </Badge>
@@ -145,7 +243,7 @@ function Hero() {
           </div>
         </div>
 
-        <Card className="self-end border-border/80 bg-card/82 backdrop-blur-xl">
+        <Card className="min-w-0 overflow-hidden self-end border-border/80 bg-card/82 backdrop-blur-xl">
           <CardHeader className="pb-4">
             <div className="flex items-start justify-between gap-4">
               <ZohbotAvatar />
@@ -161,12 +259,17 @@ function Hero() {
               const Icon = contactIcons[contact.label] || ArrowUpRight;
 
               return (
-                <Button key={contact.label} asChild variant="subtle" className="h-auto justify-start px-3 py-3">
-                  <a href={contact.href}>
+                <Button
+                  key={contact.label}
+                  asChild
+                  variant="subtle"
+                  className="wrap-inline h-auto min-w-0 justify-start px-3 py-3"
+                >
+                  <a href={contact.href} {...getSafeLinkProps(contact.href)}>
                     <Icon className="size-4 text-primary" />
-                    <span className="grid text-left">
+                    <span className="grid min-w-0 text-left">
                       <span className="text-xs uppercase text-muted-foreground">{contact.label}</span>
-                      <span>{contact.value}</span>
+                      <span className="break-all">{contact.value}</span>
                     </span>
                   </a>
                 </Button>
@@ -214,6 +317,304 @@ function OperationsPanel() {
   );
 }
 
+function TerminalPanel() {
+  const [history, setHistory] = useState([
+    {
+      command: "boot",
+      lines: ["Zohbot interactive shell online.", "Run help to explore the resume."]
+    }
+  ]);
+  const [command, setCommand] = useState("");
+
+  const runCommand = (rawCommand) => {
+    const nextCommand = rawCommand.trim().toLowerCase();
+
+    if (!nextCommand) {
+      return;
+    }
+
+    if (nextCommand === "clear") {
+      setHistory([]);
+      setCommand("");
+      return;
+    }
+
+    setHistory((current) =>
+      [
+        ...current,
+        {
+          command: nextCommand,
+          lines: getCommandLines(nextCommand)
+        }
+      ].slice(-maxTerminalHistory)
+    );
+    setCommand("");
+  };
+
+  return (
+    <Card className="terminal-surface overflow-hidden">
+      <CardHeader className="relative z-10 flex-row items-center justify-between gap-4 space-y-0">
+        <div>
+          <CardTitle className="flex items-center gap-2">
+            <Terminal className="size-4 text-primary" />
+            Visitor terminal
+          </CardTitle>
+          <CardDescription>Type a command or use the chips to inspect the profile.</CardDescription>
+        </div>
+        <Badge variant="success" className="rounded-md">
+          Live
+        </Badge>
+      </CardHeader>
+      <CardContent className="relative z-10 grid gap-4">
+        <div
+          className="min-h-[15rem] rounded-md border border-primary/15 bg-background/72 p-4 font-mono text-sm"
+          role="log"
+          aria-live="polite"
+          aria-relevant="additions text"
+        >
+          {history.length === 0 ? (
+            <p className="text-muted-foreground">Console cleared. Try help.</p>
+          ) : (
+            <div className="grid gap-4">
+              {history.map((entry, index) => (
+                <div key={`${entry.command}-${index}`} className="grid gap-1">
+                  <p className="text-primary">zohbot@site:~$ {entry.command}</p>
+                  {entry.lines.map((line, lineIndex) => (
+                    <p key={`${line}-${lineIndex}`} className="break-words text-muted-foreground">
+                      {line}
+                    </p>
+                  ))}
+                </div>
+              ))}
+            </div>
+          )}
+          <p className="mt-4 text-primary">
+            zohbot@site:~$ <span className="terminal-caret" aria-hidden="true" />
+          </p>
+        </div>
+
+        <div className="flex flex-wrap gap-2">
+          {quickCommands.map((quickCommand) => (
+            <Button key={quickCommand} type="button" variant="subtle" size="sm" onClick={() => runCommand(quickCommand)}>
+              {quickCommand}
+            </Button>
+          ))}
+        </div>
+
+        <form
+          className="flex gap-2"
+          onSubmit={(event) => {
+            event.preventDefault();
+            runCommand(command);
+          }}
+        >
+          <label className="sr-only" htmlFor="terminal-command">
+            Terminal command
+          </label>
+          <input
+            id="terminal-command"
+            value={command}
+            onChange={(event) => setCommand(event.target.value)}
+            placeholder="type help, projects, skills..."
+            maxLength={40}
+            autoComplete="off"
+            autoCorrect="off"
+            inputMode="text"
+            spellCheck="false"
+            className="min-w-0 flex-1 rounded-md border border-border bg-background/76 px-3 py-2 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-primary"
+          />
+          <Button type="submit" aria-label="Run command">
+            <Send className="size-4" />
+            Run
+          </Button>
+        </form>
+      </CardContent>
+    </Card>
+  );
+}
+
+function MissionBoard() {
+  const [activeMission, setActiveMission] = useState(missionCards[0].id);
+  const [completedMissions, setCompletedMissions] = useState(["prototype"]);
+
+  const selectedMission = missionCards.find((mission) => mission.id === activeMission) || missionCards[0];
+  const progress = Math.round((completedMissions.length / missionCards.length) * 100);
+
+  const toggleMission = (missionId) => {
+    setCompletedMissions((current) =>
+      current.includes(missionId) ? current.filter((id) => id !== missionId) : [...current, missionId]
+    );
+  };
+
+  return (
+    <Card className="bg-card/82">
+      <CardHeader>
+        <SectionHeading icon={Trophy} eyebrow="Quest board" title="Pick a build mission" />
+      </CardHeader>
+      <CardContent className="grid gap-4">
+        <div className="rounded-md border border-border bg-muted/35 p-4">
+          <div className="flex items-center justify-between gap-3">
+            <p className="text-sm font-semibold text-foreground">Visitor progress</p>
+            <Badge variant="warning" className="rounded-md">
+              {progress}%
+            </Badge>
+          </div>
+          <div className="mt-3 h-2 overflow-hidden rounded-full bg-background">
+            <div className="h-full rounded-full bg-primary transition-all" style={{ width: `${progress}%` }} />
+          </div>
+        </div>
+
+        <div className="grid gap-2">
+          {missionCards.map((mission) => {
+            const Icon = mission.icon;
+            const isActive = mission.id === activeMission;
+            const isComplete = completedMissions.includes(mission.id);
+
+            return (
+              <button
+                key={mission.id}
+                type="button"
+                aria-pressed={isActive}
+                onClick={() => setActiveMission(mission.id)}
+                className={`rounded-md border p-3 text-left transition-all ${
+                  isActive
+                    ? "border-primary/60 bg-primary/10 shadow-[0_0_28px_rgb(72_240_219_/_0.12)]"
+                    : "border-border bg-muted/20 hover:border-primary/35"
+                }`}
+              >
+                <span className="flex items-start gap-3">
+                  <span className="grid size-9 shrink-0 place-items-center rounded-md border border-primary/20 bg-background text-primary">
+                    <Icon className="size-4" />
+                  </span>
+                  <span className="min-w-0">
+                    <span className="flex flex-wrap items-center gap-2 font-semibold text-foreground">
+                      {mission.title}
+                      {isComplete ? (
+                        <Badge variant="success" className="rounded-md">
+                          Complete
+                        </Badge>
+                      ) : null}
+                    </span>
+                    <span className="mt-1 block text-sm leading-6 text-muted-foreground">{mission.detail}</span>
+                  </span>
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="rounded-md border border-border bg-background/55 p-4">
+          <p className="text-sm font-semibold text-foreground">{selectedMission.reward}</p>
+          <p className="mt-1 text-sm leading-6 text-muted-foreground">{selectedMission.detail}</p>
+          <div className="mt-4 flex flex-wrap gap-2">
+            <Button type="button" size="sm" onClick={() => toggleMission(selectedMission.id)}>
+              <CheckCircle2 className="size-4" />
+              Toggle complete
+            </Button>
+            <Button type="button" variant="subtle" size="sm" onClick={() => setCompletedMissions([])}>
+              <RotateCcw className="size-4" />
+              Reset
+            </Button>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function SignalLab() {
+  const [enabledModes, setEnabledModes] = useState(["interface", "automation"]);
+
+  const activeModes = useMemo(
+    () => buildModes.filter((mode) => enabledModes.includes(mode.id)),
+    [enabledModes]
+  );
+  const signalScore = activeModes.reduce((total, mode) => total + mode.score, 12);
+  const output = activeModes.length
+    ? activeModes.map((mode) => mode.output).join(" ")
+    : "Select a mode to generate a build profile.";
+
+  const toggleMode = (modeId) => {
+    setEnabledModes((current) =>
+      current.includes(modeId) ? current.filter((id) => id !== modeId) : [...current, modeId]
+    );
+  };
+
+  return (
+    <Card className="signal-lab overflow-hidden bg-card/82">
+      <CardHeader className="relative z-10">
+        <SectionHeading icon={Gauge} eyebrow="Signal lab" title="Mix the Zohbot build mode" />
+      </CardHeader>
+      <CardContent className="relative z-10 grid gap-4">
+        <div className="grid gap-2 sm:grid-cols-3">
+          {buildModes.map((mode) => {
+            const Icon = mode.icon;
+            const isEnabled = enabledModes.includes(mode.id);
+
+            return (
+              <Button
+                key={mode.id}
+                type="button"
+                aria-pressed={isEnabled}
+                variant={isEnabled ? "default" : "subtle"}
+                className="h-auto justify-start px-3 py-3"
+                onClick={() => toggleMode(mode.id)}
+              >
+                <Icon className="size-4" />
+                {mode.label}
+              </Button>
+            );
+          })}
+        </div>
+
+        <div className="grid gap-3 rounded-md border border-border bg-background/62 p-4">
+          <div className="flex items-center justify-between gap-3">
+            <p className="text-sm font-semibold text-foreground">Signal strength</p>
+            <p className="text-2xl font-semibold text-primary">{Math.min(signalScore, 100)}</p>
+          </div>
+          <div className="grid grid-cols-12 gap-1">
+            {Array.from({ length: 12 }, (_, index) => (
+              <span
+                key={index}
+                className={`h-8 rounded-sm border ${
+                  index < Math.ceil(Math.min(signalScore, 100) / 9)
+                    ? "border-primary/45 bg-primary/35"
+                    : "border-border bg-muted/25"
+                }`}
+              />
+            ))}
+          </div>
+          <p className="text-sm leading-6 text-muted-foreground">{output}</p>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function InteractivePlayground() {
+  return (
+    <section id="playground" className="grid gap-5">
+      <SectionHeading
+        icon={Gamepad2}
+        eyebrow="Interactive profile"
+        title="A web resume visitors can play with"
+        action={
+          <Badge variant="outline" className="rounded-md">
+            React powered
+          </Badge>
+        }
+      />
+      <div className="grid gap-5 lg:grid-cols-[minmax(0,1.15fr)_minmax(320px,0.85fr)]">
+        <TerminalPanel />
+        <div className="grid gap-5">
+          <MissionBoard />
+          <SignalLab />
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function ExperienceList() {
   return (
     <div className="grid gap-3">
@@ -252,7 +653,7 @@ function ProjectGrid() {
       {resume.projects.map((project) => (
         <Card key={project.name} className="group bg-card/70 transition-colors hover:border-primary/40">
           <CardHeader>
-            <a className="flex items-start justify-between gap-3" href={project.url}>
+            <a className="flex items-start justify-between gap-3" href={project.url} {...getSafeLinkProps(project.url)}>
               <CardTitle className="leading-tight">{project.name}</CardTitle>
               <ArrowUpRight className="size-4 shrink-0 text-muted-foreground transition-colors group-hover:text-primary" />
             </a>
@@ -337,15 +738,23 @@ function App() {
         <Hero />
         <div className="mx-auto grid w-full max-w-7xl gap-6 px-4 py-6 sm:px-6 lg:px-8">
           <OperationsPanel />
+          <InteractivePlayground />
           <ResumeTabs />
         </div>
       </main>
       <footer className="site-footer">
         <div>
           <strong>Zohbot Web Resume</strong>
-          <p>Design, frontend implementation, and project presentation by <a href="https://syhtek.com">SYHTEK</a>.</p>
+          <p>
+            Design, frontend implementation, and project presentation by{" "}
+            <a href="https://syhtek.com" {...getSafeLinkProps("https://syhtek.com")}>
+              SYHTEK
+            </a>.
+          </p>
         </div>
-        <a href="https://syhtek.com">Inquiries</a>
+        <a href="https://syhtek.com" {...getSafeLinkProps("https://syhtek.com")}>
+          Inquiries
+        </a>
       </footer>
     </>
   );
